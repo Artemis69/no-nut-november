@@ -2,6 +2,8 @@ import { render } from "solid-js/web";
 import { Root } from "./components";
 import { Router } from "solid-app-router";
 
+import { DataProvider } from "./lib/";
+
 import { manage } from "@artemis69/some-theme-manager";
 
 import { light_theme, dark_theme } from "./theme/index.css";
@@ -20,9 +22,11 @@ manage().subscribe((theme) => {
 
 render(
   () => (
-    <Router>
-      <Root />
-    </Router>
+    <DataProvider>
+      <Router>
+        <Root />
+      </Router>
+    </DataProvider>
   ),
   document.getElementById("root")!
 );

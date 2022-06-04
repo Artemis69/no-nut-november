@@ -1,12 +1,14 @@
-import type { FlowComponent } from "solid-js";
+import type { FlowComponent, JSX } from "solid-js";
 import type { LinkProps } from "solid-app-router";
 import { Link } from "solid-app-router";
 
 import * as styles from "./Button.css";
 
-export const Button: FlowComponent = (props) => {
+type NativeButtonAttrs = JSX.ButtonHTMLAttributes<HTMLButtonElement>;
+
+export const Button: FlowComponent<NativeButtonAttrs> = (props) => {
   return (
-    <button type="button" class={styles.button}>
+    <button type="button" {...props} class={styles.button}>
       {props.children}
     </button>
   );

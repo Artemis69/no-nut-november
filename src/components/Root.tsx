@@ -11,6 +11,8 @@ import {
   Icons,
 } from ".";
 
+import { useData } from "../lib";
+
 import App from "./App";
 import Settings from "./Settings";
 
@@ -20,6 +22,8 @@ export const Root: VoidComponent = () => {
   const location = useLocation();
   const path = () => location.pathname;
 
+  const data = useData();
+
   return (
     <>
       <header class={styles.header}>
@@ -27,7 +31,7 @@ export const Root: VoidComponent = () => {
           when={path().includes("/dashboard") || path().includes("/settings")}
           fallback={() => <LoginButton>Participate</LoginButton>}
         >
-          <UserPopup>
+          <UserPopup avatar={data.getAvatar() ?? undefined}>
             {(setOpen) => (
               <>
                 <LogoutButton />

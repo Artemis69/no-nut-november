@@ -1,8 +1,9 @@
 import type { VoidComponent } from "solid-js";
+import { createSignal } from "solid-js";
 import { useNavigate } from "solid-app-router";
-import { StorageService } from "../lib";
+import { StorageService, useData } from "../lib";
 
-import { LinkButton, Icon, Icons } from ".";
+import { LinkButton, Button, Icon, Icons } from ".";
 
 import * as styles from "./Settings.css";
 
@@ -17,6 +18,9 @@ const Settings: VoidComponent = () => {
     });
   }
 
+  const data = useData();
+  const [avatar, setAvatar] = createSignal(data.getAvatar());
+
   return (
     <div class={styles.container}>
       <header class={styles.header}>
@@ -26,7 +30,29 @@ const Settings: VoidComponent = () => {
         <span class={styles.title}>Settings</span>
       </header>
       <div class={styles.content}>
-        <p>Empty</p>
+        <input
+          type="text"
+          placeholder="Avatar URL"
+          value={avatar() || ""}
+          onInput={(e) => {
+            const { value } = e.currentTarget;
+
+            setAvatar(value);
+          }}
+        />
+        <Button
+          onClick={() => {
+            try {
+              new URL(avatar() || "");
+
+              data.setAvatar(avatar());
+            } catch (error) {
+              console.error("This is not a valid URL");
+            }
+          }}
+        >
+          Save
+        </Button>
       </div>
     </div>
   );
