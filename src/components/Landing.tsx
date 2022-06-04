@@ -22,7 +22,9 @@ export const Landing: VoidComponent = () => {
     <div class={styles.container}>
       <img class={styles.logo} src={logo} alt="Crossed out nut" />
       <div class={styles.promo}>
-        <h1 class={styles.title}>No Nuts November</h1>
+        <h1 class={styles.title} translate="no">
+          No Nut November
+        </h1>
         <p class={styles.subtitle}>
           No Nut November is an internet challenge revolving around abstinence,
           in which participants abstain from masturbation and orgasming during
