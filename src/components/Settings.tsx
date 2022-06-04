@@ -20,7 +20,7 @@ const Settings: VoidComponent = () => {
   return (
     <div class={styles.container}>
       <header class={styles.header}>
-        <LinkButton href="/dashboard">
+        <LinkButton href="/dashboard" aria-label="Go to Dashboard">
           <Icon children={Icons.arrowLeft} />
         </LinkButton>
         <span class={styles.title}>Settings</span>

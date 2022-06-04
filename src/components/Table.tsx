@@ -8,7 +8,7 @@ import {
   DialogOverlay,
   DialogTitle,
 } from "solid-headless";
-import { createSignal, Show, Switch, Match } from "solid-js";
+import { createSignal, For, Show, Switch, Match } from "solid-js";
 import { createStore } from "solid-js/store";
 import { Dynamic } from "solid-js/web";
 import { Alert, Icon, Icons } from ".";
@@ -90,61 +90,64 @@ export const Table: VoidComponent<TableProps> = (props) => {
         {Array.from({ length: props.empty }).map((_, i) => (
           <div class={styles.placeholder} />
         ))}
-        {store.map((day) => (
-          <>
-            <Dynamic
-              component={day.day === currentDate ? "button" : "div"}
-              class={clsx(
-                styles.cell,
-                day.status === "passed" && styles.cell_status_passed,
-                day.status === "failed" && styles.cell_status_failed,
-                day.status === "missed" && styles.cell_status_missed,
-                day.status === "not available yet" &&
-                  styles.cell_status_notAvailableYet,
-                day.day === currentDate && styles.cell_button_reset,
-                day.day === currentDate && styles.cell_button
-              )}
-              classList={{
-                [styles.cell_current]:
-                  day.day === currentDate && day.status === "pending",
-              }}
-              aria-label={
-                day.day === currentDate
-                  ? "Open the value setting dialog box"
-                  : null
-              }
-              onClick={() => {
-                if (day.day === currentDate) {
-                  setIsOpen(true);
+        <For each={store}>
+          {(day) => (
+            <>
+              <Dynamic
+                component={day.day === currentDate ? "button" : "div"}
+                type={day.day === currentDate ? "button" : null}
+                class={clsx(
+                  styles.cell,
+                  day.status === "passed" && styles.cell_status_passed,
+                  day.status === "failed" && styles.cell_status_failed,
+                  day.status === "missed" && styles.cell_status_missed,
+                  day.status === "not available yet" &&
+                    styles.cell_status_notAvailableYet,
+                  day.day === currentDate && styles.cell_button_reset,
+                  day.day === currentDate && styles.cell_button
+                )}
+                classList={{
+                  [styles.cell_current]:
+                    day.day === currentDate && day.status === "pending",
+                }}
+                aria-label={
+                  day.day === currentDate
+                    ? "Open the value setting dialog box"
+                    : null
                 }
-              }}
-            >
-              <span class={styles.cell_day}>
-                {day.day}
-                <Show when={day.status !== "not available yet"}>
-                  <Icon>
-                    <Switch>
-                      <Match when={day.status === "passed"}>
-                        <Icons.check />
-                      </Match>
-                      <Match
-                        when={
-                          day.status === "failed" || day.status === "missed"
-                        }
-                      >
-                        <Icons.failure />
-                      </Match>
-                      <Match when={day.status === "pending"}>
-                        <Icons.clock />
-                      </Match>
-                    </Switch>
-                  </Icon>
-                </Show>
-              </span>
-              <span>{day.status}</span>
-            </Dynamic>
-          </>
-        ))}
+                onClick={() => {
+                  if (day.day === currentDate) {
+                    setIsOpen(true);
+                  }
+                }}
+              >
+                <span class={styles.cell_day}>
+                  {day.day}
+                  <Show when={day.status !== "not available yet"}>
+                    <Icon>
+                      <Switch>
+                        <Match when={day.status === "passed"}>
+                          <Icons.check />
+                        </Match>
+                        <Match
+                          when={
+                            day.status === "failed" || day.status === "missed"
+                          }
+                        >
+                          <Icons.failure />
+                        </Match>
+                        <Match when={day.status === "pending"}>
+                          <Icons.clock />
+                        </Match>
+                      </Switch>
+                    </Icon>
+                  </Show>
+                </span>
+                <span>{day.status}</span>
+              </Dynamic>
+            </>
+          )}
+        </For>
       </div>
       <Dialog
         isOpen={isOpen()}
