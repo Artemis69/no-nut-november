@@ -1,10 +1,18 @@
 import type { FlowComponent, JSX } from "solid-js";
+import clsx from "clsx";
+
+import * as styles from "./Icon.css";
 
 type NativeSVGAttrs = JSX.SvgSVGAttributes<SVGSVGElement>;
 
 export const Icon: FlowComponent<NativeSVGAttrs> = (props) => {
   return (
-    <svg width="24" height="24" fill="none">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      {...props}
+      class={clsx(props.class, styles.svg)}
+    >
       {props.children}
     </svg>
   );
@@ -135,6 +143,26 @@ const Icons = {
         stroke-linejoin="round"
         stroke-width="1.5"
         d="M19.25 12H5"
+      />
+    </>
+  ),
+  user: () => (
+    <>
+      <circle
+        cx="12"
+        cy="8"
+        r="3.25"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1.5"
+      />
+      <path
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1.5"
+        d="M6.848 19.25h10.305c1.141 0 2.021-.982 1.488-1.992C17.856 15.773 16.068 14 12 14s-5.856 1.773-6.64 3.258c-.534 1.01.346 1.992 1.487 1.992Z"
       />
     </>
   ),
