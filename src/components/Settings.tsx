@@ -1,7 +1,7 @@
 import type { VoidComponent } from "solid-js";
 import { createSignal, Show, Switch, Match } from "solid-js";
 import { useNavigate } from "solid-app-router";
-import { StorageService, useData } from "../lib";
+import { StorageService, useData, readFile, processAvatar } from "../lib";
 
 import {
   Dialog,
@@ -27,7 +27,6 @@ const Settings: VoidComponent = () => {
   }
 
   const data = useData();
-  const [avatar, setAvatar] = createSignal(data.getAvatar());
 
   const [isOpen, setIsOpen] = createSignal(false);
   const [current, setCurrent] = createSignal("avatar");
@@ -52,22 +51,50 @@ const Settings: VoidComponent = () => {
         <div class={styles.content}>
           <div>
             <div class={styles.avatar}>
-              <Show
-                when={avatar()}
-                fallback={
-                  <Icon class={styles.avatar_img} children={Icons.user} />
-                }
-              >
-                <img class={styles.avatar_img} src={avatar()!} />
-              </Show>
-              <Button
-                onClick={() => {
-                  setCurrent("avatar");
-                  openModal();
-                }}
-              >
-                Change
-              </Button>
+              <label class={styles.avatar_label}>
+                <Show
+                  when={data.getAvatar()}
+                  fallback={
+                    <Icon class={styles.avatar_img} children={Icons.user} />
+                  }
+                >
+                  <img
+                    class={styles.avatar_img}
+                    src={data.getAvatar()!}
+                    alt=""
+                  />
+                </Show>
+                <span>Select image</span>
+                <input
+                  type="file"
+                  accept="image/png, image/jpeg, image/svg+xml, image/webp"
+                  onInput={async (event) => {
+                    console.time("Process Avatar");
+
+                    const file = await readFile(event);
+
+                    if (!file) return;
+
+                    const avatar = await processAvatar(file);
+
+                    if (!avatar) return;
+
+                    console.timeEnd("Process Avatar");
+
+                    data.setAvatar(avatar);
+                  }}
+                />
+              </label>
+
+              <div>
+                <Button
+                  onClick={() => {
+                    data.setAvatar(null);
+                  }}
+                >
+                  Remove Avatar
+                </Button>
+              </div>
             </div>
           </div>
           <div></div>
@@ -81,30 +108,7 @@ const Settings: VoidComponent = () => {
       >
         <DialogOverlay class={dialog_styles.dialogOverlay} />
         <div class={dialog_styles.container}>
-          <DialogPanel class={dialog_styles.dialogPanel}>
-            <form
-              onSubmit={(event) => {
-                event.preventDefault();
-
-                const input = event.target.querySelector("input")!;
-
-                const { value } = input;
-
-                data.setAvatar(value);
-                setAvatar(value);
-
-                closeModal();
-              }}
-            >
-              <input
-                type="url"
-                required={true}
-                value={avatar() || ""}
-                placeholder="URL of avatar"
-              />
-              <Button type="submit">Save</Button>
-            </form>
-          </DialogPanel>
+          <DialogPanel class={dialog_styles.dialogPanel}>Dialog</DialogPanel>
         </div>
       </Dialog>
     </>

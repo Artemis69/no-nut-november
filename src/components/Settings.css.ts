@@ -1,4 +1,4 @@
-import { style } from "@vanilla-extract/css";
+import { style, globalStyle } from "@vanilla-extract/css";
 import { vars } from "../theme/index.css";
 
 export const container = style(
@@ -48,16 +48,17 @@ export const content = style(
 
 export const avatar = style(
   {
+    position: "relative",
     width: "75%",
     margin: "30% auto",
+    padding: "12px",
     border: vars.borders[0],
-    borderRadius: "56px",
-    boxShadow: vars.shadows[0],
+    borderRadius: "24px",
+    boxShadow: vars.shadows[1],
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    padding: "12px",
   },
   "avatar"
 );
@@ -67,9 +68,29 @@ export const avatar_img = style(
     width: "65% !important",
     height: "65% !important",
     borderRadius: "50%",
-    margin: "6px auto 12px auto",
+    margin: "6px auto 2px auto",
     display: "block",
     aspectRatio: "1",
+    boxShadow: `0 0 0 4px ${vars.color.primary}`,
+    background: "#EDEDED",
+    "@media": {
+      "(prefers-color-scheme: dark)": {
+        background: "#101010",
+      },
+    },
   },
   "avatar_img"
 );
+
+export const avatar_label = style(
+  {
+    cursor: "pointer",
+  },
+  "avatar_label"
+);
+
+globalStyle(`.${avatar_label} > input, .${avatar_label} > span`, {
+  height: "1px",
+  userSelect: "none",
+  opacity: 0,
+});

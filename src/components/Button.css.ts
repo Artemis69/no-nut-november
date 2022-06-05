@@ -46,3 +46,12 @@ export const button = style(
   },
   "button"
 );
+
+export const primary = style({
+  color: "#fff",
+  textShadow: `1px 1px 4px rgb(0 0 0 / 9%)`,
+  background: "#e73570 !important",
+  ":hover": {
+    background: "#dd5277 !important",
+  },
+});
