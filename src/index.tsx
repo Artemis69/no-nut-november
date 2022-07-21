@@ -2,15 +2,13 @@ import { render } from "solid-js/web";
 import { Root } from "./components";
 import { Router } from "solid-app-router";
 
-import { DataProvider } from "./lib/";
-
-import { manage } from "@artemis69/some-theme-manager";
+import { DataProvider, colorScheme } from "./lib";
 
 import { light_theme, dark_theme } from "./theme/index.css";
 import "./theme/global.css";
 import "./theme/fonts.css";
 
-manage().subscribe((theme) => {
+colorScheme((theme) => {
   if (theme === "light") {
     document.body.classList.remove(dark_theme);
     document.body.classList.add(light_theme);

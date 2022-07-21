@@ -17,7 +17,6 @@
     "vite-plugin-solid": "^2.2.6"
   },
   "dependencies": {
-    "@artemis69/some-theme-manager": "^0.0.0",
     "@xz/fonts": "^1.0.2",
     "clsx": "^1.1.1",
     "lagring": "^0.1.0",

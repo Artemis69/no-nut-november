@@ -4,3 +4,4 @@ export { is } from "./is";
 export { DataProvider, useData } from "./data";
 export { readFile } from "./readFile";
 export { processAvatar } from "./processAvatar";
+export { subscribe as colorScheme } from "./color-scheme";
